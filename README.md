@@ -1,82 +1,100 @@
-# Implementation-of-Linear-Regression-Using-Gradient-Descent
+# EXP:4 Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student
 
 ## AIM:
-To write a program to predict the profit of a city using the linear regression model with gradient descent.
+To write a program to implement the the Logistic Regression Model to Predict the Placement Status of Student.
 
 ## Equipments Required:
 1. Hardware – PCs
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. Start the program
-2. Import numpy as np
-3.Plot the points
-4. IntiLiaze thhe program
-5. End the program
+1.Use the standard libraries in python for finding linear regression.
+
+2.Set variables for assigning dataset values.
+
+3.Import linear regression from sklearn.
+
+4.Predict the values of array.
+
+5.Calculate the accuracy, confusion and classification report by importing the required modules from sklearn.
+
+6.Obtain the graph. 
 
 ## Program:
 ```
 /*
-Program to implement the linear regression using gradient descent.
-Developed by: Daisy R
-RegisterNumber:  212223220016
+Program to implement the the Logistic Regression Model to Predict the Placement Status of Student.
+Developed by: M.LATHISH KANNA
+RegisterNumber: 212222230073
 */
-```
-```
-import numpy as np 
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
-def linear_regression(X1,y,learning_rate=0.1,num_iters=1000):
-    X=np.c_[np.ones(len(X1)),X1]
-    
-    theta=np.zeros(X.shape[1]).reshape(-1,1)
-    
-    for _ in range(num_iters):
-        #Calculate predictions
-        predictions=(X).dot(theta).reshape(-1,1)
-        
-        #Calculate errors
-        errors=(predictions-y).reshape(-1,1)
-        #Update theto using gradient descent
-        theta=learning=learning_rate*(1/len(X1))*X.T.dot(errors)
-    return theta
-data=pd.read_csv("50_Startups.csv")
+data=pd.read_csv("Placement_Data.csv")
 data.head()
-X=(data.iloc[1:,:-2].values)
-X1=X.astype(float)
 
-scaler=StandardScaler()
-y=(data.iloc[1:,-1].values).reshape(-1,1)
-X1_Scaled=scaler.fit_transform(X1)
-Y1_Scaled=scaler.fit_transform(y)
-print(X)
-print(X1_Scaled)
-#Learn model Parameters
-theta= linear_regression(X1_Scaled,Y1_Scaled)
-#Predict data value for a new value point
-new_data=np.array([165349.2,136897.8,471784.1]).reshape(-1,1)
-new_Scaled=scaler.fit_transform(new_data)
-prediction=np.dot(np.append(1,new_Scaled),theta)
-prediction=prediction.reshape(-1,1)
-pre=scaler.inverse_transform(prediction)
-print(prediction)
-print(f"Predicted value: {pre}")
+data1=data.copy()
+data1=data1.drop(["sl_no","salary"],axis=1)
+data1.head()
+
+data1.isnull()
+
+data1.duplicated().sum()
+
+from sklearn .preprocessing import LabelEncoder
+le=LabelEncoder()
+data1["gender"]=le.fit_transform(data1["gender"])
+data1["ssc_b"]=le.fit_transform(data1["ssc_b"])
+data1["hsc_b"]=le.fit_transform(data1["hsc_b"])
+data1["hsc_s"]=le.fit_transform(data1["hsc_s"])
+data1["degree_t"]=le.fit_transform(data1["degree_t"])
+data1["workex"]=le.fit_transform(data1["workex"])
+data1["specialisation"]=le.fit_transform(data1["specialisation"])
+data1["status"]=le.fit_transform(data1["status"])
+data1
+
+x=data1.iloc[:,:-1]
+x
+
+y=data1["status"]
+y
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
+
+from sklearn.linear_model import LogisticRegression
+lr=LogisticRegression(solver="liblinear")
+lr.fit(x_train,y_train)
+y_pred=lr.predict(x_test)
+y_pred
+
+from sklearn.metrics import accuracy_score
+accuracy=accuracy_score(y_test,y_pred)
+accuracy
+
+from sklearn.metrics import classification_report
+classification_report1=classification_report(y_test,y_pred)
+print(classification_report1)
+
+lr.predict([[1,80,1,90,1,1,90,1,0,85,1,85]])
 ```
 
 ## Output:
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/a8e6f266-2eaf-49eb-b5a7-60d86f78aef3)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/c9127f12-67c4-4718-991d-2366546f09f4)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/f68e6b65-2755-4af4-99bf-80b88ce8a2fb)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/8080ba86-588a-48bd-8570-da961e1f47fd)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/de1a0ea5-839e-40fd-88b6-e2000ca4877c)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/8b902baa-d208-428e-99e2-9e8ca3f97444)
+![image](https://github.com/lathishlathish/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/120359170/245350d2-d6d9-48b1-9571-c1a22c7e007f)
 
-![image](https://github.com/ALANZION/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145743064/5084f463-d960-4539-a561-5550f15b514b)
-
-## data.head()
-![image](https://github.com/ALANZION/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145743064/bb638b3a-106d-4028-9a8e-69435db692cf)
-
-![image](https://github.com/ALANZION/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145743064/afa80037-7ed8-42aa-bc44-d4e6dbc3fbc2)
 
 
-![image](https://github.com/ALANZION/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145743064/9160bb6a-0609-47cc-a382-3d820efd195e)
+
+
+
+
 
 
 
 
 ## Result:
-Thus the program to implement the linear regression using gradient descent is written and verified using python programming.
+Thus the program to implement the the Logistic Regression Model to Predict the Placement Status of Student is written and verified using python programming.
